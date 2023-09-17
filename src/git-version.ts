@@ -116,7 +116,7 @@ export class GitVersion {
 
     if (!newVersion) throw new Error(`Previous Version can't increment`)
 
-    const gitCommitsSince = this.getCommitsSince(previousVersion)
+    const gitCommitsSince = this.getCommitsSince(previousTag)
 
     let major = false
 
@@ -255,15 +255,10 @@ export class GitVersion {
 
   private getCommitsSince(tag: string | null): string[] {
     try {
-      if (
-        tag &&
-        this.execMultiple(`git tag -l ${this.addPrefix(tag)}`).length > 0
-      ) {
-        const lastCommit = this.execMultiple(
-          `git show-ref -s ${this.addPrefix(tag)}`
-        )[0]
+      if (tag && this.execMultiple(`git tag -l ${tag}`).length > 0) {
+        const lastCommit = this.execMultiple(`git show-ref -s ${tag}`)[0]
 
-        core.debug(`git show-ref -s ${this.addPrefix(tag)} | ${lastCommit}`)
+        core.debug(`git show-ref -s ${tag} | ${lastCommit}`)
 
         const data = this.execMultiple(
           `git log --pretty=%B ${lastCommit}..HEAD ${this.options.logPathsFilter()}`
