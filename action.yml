@@ -1,0 +1,69 @@
+name: codedesignplus/semver-git-version
+author: "CodeDesignPlus"
+description: 'Semver versioning based on the git history and commit messages of your repository.'
+branding:
+  icon: 'git-branch'
+  color: 'gray-dark'
+inputs:
+  version:
+    description: 'The version of the tool to be ran'
+    required: true
+    default: latest
+  folder:
+    description: 'Execute the command in the defined folder'
+    required: true
+  release-branch:
+    description: 'The name of the release branch'
+    required: true
+    default: main
+  release-candidate-branch:
+    description: 'The name of the release candidate branch'
+    required: true
+    default: rc
+  beta-branch:
+    description: 'The name of the beta branch'
+    required: true
+    default: dev
+  major-identifier:
+    description: 'Specifies the string or regex to identify a major release commit'
+    required: true
+    default: 'breaking'
+  minor-identifier:
+    description: 'Specifies the string or regex to identify a minor release commit'
+    required: true
+    default: 'feat' 
+  prefix:
+    description: 'The prefix to use in the version'
+    required: false
+    default: 'v'
+  dir-affected:
+    description: 'Directory affected inside monorepo to calculate changes (comma-separated)'
+    required: false
+    default: ./
+  previous-version:
+    description: 'Returns the previous tag instead of calculating a new one'
+    required: false
+    default: true
+  new-version:
+    description: 'Returns the new version'
+    required: false
+    default: true
+outputs:
+  new-version:
+    description: 'The value of the new pre-calculated tag'
+    value: ${{ steps.version.outputs.version }}
+  new-version-prefix:
+    description: 'The value of the new pre-calculated tag'
+    value: ${{ steps.version.outputs.version-prefix }}
+  previous-tag:
+    description: 'Contains the value of previous tag, before calculating a new one'
+    value: ${{ steps.previous-version.outputs.previous-tag }}
+  previous-version:
+    description: 'Contains the value of previous tag, before calculating a new one'
+    value: ${{ steps.previous-version.outputs.previous-version }}
+  previous-version-prefix:
+    description: 'Contains the value of previous tag, before calculating a new one'
+    value: ${{ steps.previous-version.outputs.previous-version-prefix }}
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

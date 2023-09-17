@@ -1,0 +1,16 @@
+# Excluir ciertas etiquetas del etiquetado automático
+excludeLabels:
+  - question
+  - wontfix
+
+# Especificar etiquetas personalizadas basadas en palabras clave
+labelFor:
+  feature: 
+    - feature
+    - enhancement
+  bug:
+    - bug
+    - error
+
+# Configurar notificaciones
+notifications: true
