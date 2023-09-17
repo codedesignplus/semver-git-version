@@ -7729,7 +7729,7 @@ class GitVersion {
         core.debug(`init newVersion | ${newVersion}`);
         if (!newVersion)
             throw new Error(`Previous Version can't increment`);
-        const gitCommitsSince = this.getCommitsSince(previousVersion);
+        const gitCommitsSince = this.getCommitsSince(previousTag);
         let major = false;
         for (const item of gitCommitsSince) {
             const commit = item.toLocaleLowerCase();
@@ -7825,10 +7825,9 @@ class GitVersion {
     }
     getCommitsSince(tag) {
         try {
-            if (tag &&
-                this.execMultiple(`git tag -l ${this.addPrefix(tag)}`).length > 0) {
-                const lastCommit = this.execMultiple(`git show-ref -s ${this.addPrefix(tag)}`)[0];
-                core.debug(`git show-ref -s ${this.addPrefix(tag)} | ${lastCommit}`);
+            if (tag && this.execMultiple(`git tag -l ${tag}`).length > 0) {
+                const lastCommit = this.execMultiple(`git show-ref -s ${tag}`)[0];
+                core.debug(`git show-ref -s ${tag} | ${lastCommit}`);
                 const data = this.execMultiple(`git log --pretty=%B ${lastCommit}..HEAD ${this.options.logPathsFilter()}`);
                 core.debug(`git log --pretty=%B ${lastCommit}..HEAD ${this.options.logPathsFilter()} | ${data}`);
                 return data;
