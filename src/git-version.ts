@@ -112,7 +112,7 @@ export class GitVersion {
 
     let newVersion: string | null = semver.inc(previousVersion, 'patch')
 
-    core.debug(`init newVersion | ${newVersion}`);
+    core.debug(`init newVersion | ${newVersion}`)
 
     if (!newVersion) throw new Error(`Previous Version can't increment`)
 
@@ -255,8 +255,13 @@ export class GitVersion {
 
   private getCommitsSince(tag: string | null): string[] {
     try {
-      if (tag && this.execMultiple(`git tag -l ${this.addPrefix(tag)}`).length > 0) {
-        const lastCommit = this.execMultiple(`git show-ref -s ${this.addPrefix(tag)}`)[0]
+      if (
+        tag &&
+        this.execMultiple(`git tag -l ${this.addPrefix(tag)}`).length > 0
+      ) {
+        const lastCommit = this.execMultiple(
+          `git show-ref -s ${this.addPrefix(tag)}`
+        )[0]
 
         core.debug(`git show-ref -s ${this.addPrefix(tag)} | ${lastCommit}`)
 

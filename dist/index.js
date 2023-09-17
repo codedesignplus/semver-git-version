@@ -7726,6 +7726,7 @@ class GitVersion {
     getNewVersion() {
         const { previousTag, previousVersion } = this.getPreviousTagAndVersion();
         let newVersion = semver_1.default.inc(previousVersion, 'patch');
+        core.debug(`init newVersion | ${newVersion}`);
         if (!newVersion)
             throw new Error(`Previous Version can't increment`);
         const gitCommitsSince = this.getCommitsSince(previousVersion);
@@ -7824,9 +7825,10 @@ class GitVersion {
     }
     getCommitsSince(tag) {
         try {
-            if (tag && this.execMultiple(`git tag -l ${tag}`).length > 0) {
-                const lastCommit = this.execMultiple(`git show-ref -s ${tag}`)[0];
-                core.debug(`git show-ref -s ${tag} | ${lastCommit}`);
+            if (tag &&
+                this.execMultiple(`git tag -l ${this.addPrefix(tag)}`).length > 0) {
+                const lastCommit = this.execMultiple(`git show-ref -s ${this.addPrefix(tag)}`)[0];
+                core.debug(`git show-ref -s ${this.addPrefix(tag)} | ${lastCommit}`);
                 const data = this.execMultiple(`git log --pretty=%B ${lastCommit}..HEAD ${this.options.logPathsFilter()}`);
                 core.debug(`git log --pretty=%B ${lastCommit}..HEAD ${this.options.logPathsFilter()} | ${data}`);
                 return data;
@@ -7844,15 +7846,6 @@ class GitVersion {
     }
     commitsDistance(tag) {
         return this.getCommitsSince(tag).length;
-        // try {
-        //   if (!tag) {
-        //     return Number.parseInt(this.execMultiple(`git rev-list --count HEAD`)[0]);
-        //   } else {
-        //     return Number.parseInt(this.execMultiple(`git rev-list --count HEAD ^refs/tags/${tag}`)[0]);
-        //   }
-        // } catch (error) {
-        //   return 0
-        // }
     }
     currentCommitHash() {
         const cmd = 'git rev-parse --verify HEAD --short';
