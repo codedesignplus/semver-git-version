@@ -187,7 +187,7 @@ The `Calculate Version` step uses the `codedesignplus/git-version` action to aut
 Once you have set up and executed the `Calculate Version` step, you can print its results or use them in subsequent actions:
 
 ```yaml
-uses: codedesignplus/semver-git-version@v0.1.2
+uses: codedesignplus/semver-git-version@v0.1.4
 with:
   folder: ${{github.workspace}}
   release-branch: 'main'
