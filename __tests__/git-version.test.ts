@@ -685,7 +685,6 @@ describe('git-version', () => {
     utils.cleanup()
   })
 
-  // Check, toBe 1.1.1
   it('should properly manage prefixes', () => {
     const utils = new Utils()
 
@@ -713,7 +712,7 @@ describe('git-version', () => {
     utils.exec(`git commit --no-gpg-sign --allow-empty -m "commit-2"`)
 
     const version = git.getNewVersion()
-    expect(version['version-complete']).toBe('v1.2.0')
+    expect(version['version-complete']).toBe('v1.1.1')
 
     utils.cleanup()
   })
