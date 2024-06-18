@@ -117,7 +117,7 @@ jobs:
       - name: Push tag
         id: push_tag
         if: env.IS_RELEASE == 'true' || env.IS_RC == 'true' || env.IS_BETA == 'true'
-        uses: mathieudutour/github-tag-action@v6.1
+        uses: mathieudutour/github-tag-action@v6.2
         with:
           custom_tag: ${{ steps.test-action.outputs.new-version }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
